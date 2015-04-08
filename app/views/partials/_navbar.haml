@@ -9,10 +9,15 @@
   .navbar-collapse.collapse.navbar-responsive-collapse
     %ul.nav.navbar-nav
       %li
-        %a{href: "#{play_path}"}
+        %a{href: "#{root_path}"}
           %i.fa.fa-home
           Home
       %li
         %a{href: "#{start_path}"}
-          %i.fa.fa-play
-          Play
+          %i.fa.fa-plus
+          Start New Game
+      - if session[:history] && session[:history].count > 0
+        %li
+          %a{href: "#{play_path}"}
+            %i.fa.fa-play
+            Continue

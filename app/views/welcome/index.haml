@@ -1,0 +1,28 @@
+.jumbotron
+  .container
+    %h1
+      Guess Who? AI Edition.
+    %p
+      To prove to myself that I knew what Prof. Patrick Henry Winston was talking about in his MIT OpenCourseWare 6.034 Lectures, I've created this simple rails app.
+    %p
+      Playing is simple: choose one of the animals below and press
+      %a{href: start_path}
+        Start New Game.
+      Respond to a series of Yes/No questions about your chosen animal and it will try and guess which animal you are thinking of. Questions will be asked in an order optimized to find the fastest route to determining your animal.
+    %p
+      Curious about how it works? It's open source! Visit
+      %a{href: "https://github.com/gcflames5/guesswho-ai"}
+        https://github.com/gcflames5/guesswho-ai
+      to see the source code.
+    %p
+      %small
+        Created by gcflames5 (Nick Sarkis)
+    %center
+      %i.fa.fa-arrow-down
+      See the choices
+      %i.fa.fa-arrow-down
+.well
+  %h2
+    Animal Choices
+  - @animals.each do |animal|
+    =render 'partials/possibility', name: animal

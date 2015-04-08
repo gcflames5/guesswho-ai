@@ -3,12 +3,14 @@
     - if @guesses.count <= 1
       %h3
         Were you thinking of a...
-      %h2
-        = @guesses.first.name
     - else
       %h3
         Hmm. I'm torn between a few options. Were you thinking of any of these?
-      %h2
-        = @guesses.map{|animal| animal.name}
-    =link_to "Home", play_path, class: "btn btn-primary"
-    =link_to "Play Again", start_path, class: "btn btn-primary"
+    %h2
+      -@guesses.each do |animal|
+        =render 'partials/possibility', name: animal.name
+    %br
+    .row
+      .col-xs-6
+        =link_to "Home", root_path, class: "btn btn-primary btn-lg"
+        =link_to "Play Again", start_path, class: "btn btn-primary btn-lg"

@@ -1,4 +1,3 @@
-include AI
 class GamesController < ApplicationController
 
   def start
@@ -25,6 +24,7 @@ class GamesController < ApplicationController
   def end
     refresh
     @guesses = session[:possibilities].map{ |name| Animal.where(name: name).first }
+    session[:history] = []
   end
 
 end

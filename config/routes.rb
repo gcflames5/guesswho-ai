@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  root to: 'welcome#index'
+
   get 'play' => 'games#play', as: :play
   get 'answer' => 'games#answer', as: :answer
   get 'start' => 'games#start', as: :start
