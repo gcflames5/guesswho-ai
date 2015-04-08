@@ -1,0 +1,32 @@
+.row
+  .col-xs-6
+    %h1
+      Question
+    %br
+    %h3
+      = @q.get_text if @q
+    .col-xs-8
+      %section.pull-left
+        = link_to "Yes", answer_path(answer: true), class: "btn btn-lg btn-primary"
+      %section.pull-right
+        = link_to "No", answer_path(answer: false), class: "btn btn-lg btn-primary"
+    %br
+    %br
+    .row
+      .col-xs-12
+        %hr{style: "height:1px;border:none;color:#999;background-color:#999; margin: 40px; margin-left:0px"}
+        %h1
+          Previous Answers
+        - if session[:history] && session[:history].count > 0
+          %ul
+            - session[:history].each do |array|
+              %li
+                = array[0].to_s + "  " + (array[1] == "true" ? "Yes" : "No")
+        - else
+          No history yet.
+
+  .col-xs-6
+    %h1
+      Possibilities
+    -session[:possibilities].each do |animal|
+      =render 'partials/possibility', name: animal

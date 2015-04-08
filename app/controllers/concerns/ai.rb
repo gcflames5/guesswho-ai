@@ -7,6 +7,7 @@ module AI
   def init_game
     session[:possibilities] = Animal.all.map{|x| x.name}
     session[:template] = Animal.new
+    session[:history] = Array.new
     set_current_question(Question.new(nil))
   end
 
@@ -15,8 +16,16 @@ module AI
     session[:current_question] = get_current_question
   end
 
+  #Returns false if the answer eliminates all chocies
   def answer_question(question, answer)
+    return false if will_deplete_all?(question, answer)
     add_characteristic(question.name, answer)
+    session[:history] << [question.get_text, answer]
+    true
+  end
+
+  def complete?(question)
+    session[:possibilities].count == 1 || question.nil?
   end
 
   def update
@@ -60,6 +69,10 @@ module AI
       end
     end
     return session[:current_question] = max_question
+  end
+
+  def will_deplete_all?(question, answer)
+    clone_and_test(session[:template], question.name, answer) >= session[:possibilities].count
   end
 
 end
