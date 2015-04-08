@@ -16,7 +16,7 @@ class GamesController < ApplicationController
   def answer
     refresh
     answer_question(session[:current_question], params[:answer])
-    redirect_to games_index_path
+    redirect_to play_path
   end
 
 end
