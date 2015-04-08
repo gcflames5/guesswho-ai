@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+
+  get 'play' => 'games#play', as: :play
+  get 'answer' => 'games#answer', as: :answer
+  get 'start' => 'games#start', as: :start
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
