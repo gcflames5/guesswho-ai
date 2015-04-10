@@ -13,6 +13,7 @@ module AI
   end
 
   def refresh
+    @possibilities = session[:possibilities].map{ |name| Animal.where(name: name).first }
     session[:template] = Animal.new(session[:template])
     session[:template_assume] = Animal.new(session[:template_assume])
 
@@ -34,7 +35,7 @@ module AI
 
   def update
     session[:possibilities].each do |animal_name|
-      animal = Animal.where(name: animal_name).first
+      animal = get_animal_by_name(animal_name)
       session[:possibilities].delete(animal_name) unless animal.compare(session[:template])
     end
   end
@@ -47,7 +48,7 @@ module AI
     template.send("#{name}=", value)
     rejects = 0
     session[:possibilities].each do |animal_name|
-      animal = Animal.where(name: animal_name).first
+      animal = get_animal_by_name(animal_name)
       rejects += 1 unless animal.compare(template)
     end
     return rejects
@@ -56,6 +57,10 @@ module AI
   def add_characteristic(key, value)
     session[:template].send("#{key}=", value)
     update
+  end
+
+  def get_animal_by_name(name)
+    @possibilities.detect{|animal| animal.name == name}
   end
 
 end
