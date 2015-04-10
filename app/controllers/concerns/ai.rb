@@ -7,12 +7,15 @@ module AI
   def init_game
     session[:possibilities] = Animal.all.map{|x| x.name}
     session[:template] = Animal.new
+    session[:template_assume] = Animal.new
     session[:history] = Array.new
     set_current_question(Question.new(nil))
   end
 
   def refresh
     session[:template] = Animal.new(session[:template])
+    session[:template_assume] = Animal.new(session[:template_assume])
+
     session[:current_question] = get_current_question
   end
 
@@ -21,6 +24,7 @@ module AI
     return false if will_deplete_all?(question, answer)
     add_characteristic(question.name, answer)
     session[:history] << [question.get_text, answer]
+    screen(question, answer)
     true
   end
 
@@ -32,7 +36,6 @@ module AI
     session[:possibilities].each do |animal_name|
       animal = Animal.where(name: animal_name).first
       session[:possibilities].delete(animal_name) unless animal.compare(session[:template])
-      puts animal.compare(session[:template])
     end
   end
 
@@ -53,26 +56,6 @@ module AI
   def add_characteristic(key, value)
     session[:template].send("#{key}=", value)
     update
-  end
-
-  def choose_question
-    max_propensity = -1
-    max_question = nil
-    session[:template].attrs_template.each do |name|
-      value = session[:template].send(name)
-      next if name == "_id" || !value.nil?
-      propensity = [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].max
-      question = Question.new(name)
-      if propensity > max_propensity
-        max_question = question
-        max_propensity = propensity
-      end
-    end
-    return session[:current_question] = max_question
-  end
-
-  def will_deplete_all?(question, answer)
-    clone_and_test(session[:template], question.name, answer) >= session[:possibilities].count
   end
 
 end

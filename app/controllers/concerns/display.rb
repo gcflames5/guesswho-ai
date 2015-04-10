@@ -8,26 +8,29 @@ module Display
   #  %l - "Does this animal live <content>?"
   #  %c - "Can this animal <content>?"
 
+  # assert/assume
+    # [same/diff/true/false]: <attr>
+      # if true/false
   def list
     {
       #True/False
         #Appearance
-          is_tall: "%i tall",
-          is_fast: "%i fast",
-          has_sharp_teeth: "%h sharp teeth",
-          has_forward_facing_eyes: "%h forward facing eyes",
-          has_spots: "%h spots",
-          has_stripes: "%h stripes",
+          is_tall: { text: "%i tall" },
+          is_fast: { text: "%i fast" },
+          has_sharp_teeth: {text: "%h sharp teeth",  assume: {same: :eats_meat} },
+          has_forward_facing_eyes: { text: "%h forward facing eyes"},
+          has_spots: { text: "%h spots", assume: {diff: :has_stripes, if: true}},
+          has_stripes: { text: "%h stripes", assume: {diff: :has_spots, if: true}},
         #Body Parts
-          has_shell: "%h a shell",
-          has_tail: "%h a tail",
+          has_shell: { text: "%h a shell"},
+          has_tail: { text: "%h a tail"},
         #Behavior
-          eats_meat: "%d eat meat",
-          lives_in_sea: "%l in the sea",
-          lives_on_land: "%l on land",
+          eats_meat: { text: "%d eat meat", assume: {same: :has_sharp_teeth} },
+          lives_in_sea: { text: "%l in the sea", assert: {same: :can_swim, if: true}},
+          lives_on_land: { text: "%l on land"},
         #Ability
-          can_fly: "%c fly",
-          can_swim: "%c swim"
+          can_fly: { text: "%c fly", assume: {diff: :has_shell, if: true} },
+          can_swim: { text: "%c swim", assert: {diff: :lives_in_sea, if: true} }
     }
   end
 end
