@@ -30,7 +30,7 @@ module Display
           lives_on_land: { text: "%l on land"},
         #Ability
           can_fly: { text: "%c fly", assume: {diff: :has_shell, if: true} },
-          can_swim: { text: "%c swim", assert: {diff: :lives_in_sea, if: true} }
+          can_swim: { text: "%c swim", assert: {same: :lives_in_sea, if: false} }
     }
   end
 end
