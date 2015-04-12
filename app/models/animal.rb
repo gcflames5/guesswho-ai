@@ -32,7 +32,7 @@ class Animal
     true
   end
 
-  def attrs_template
+  def self.attrs_template
     [:is_tall, :is_fast, :has_sharp_teeth, :has_forward_facing_eyes, :has_spots, :has_stripes, :has_shell, :has_tail, :eats_meat, :lives_in_sea, :lives_on_land, :can_fly, :can_swim]
   end
 

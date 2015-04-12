@@ -105,8 +105,4 @@ module QuestionUtils
   end
   ##################################
 
-  def get_animal_by_name(name)
-    @possibilities.detect{|animal| animal.name == name}
-  end
-
 end
