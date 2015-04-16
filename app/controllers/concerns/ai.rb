@@ -1,6 +1,5 @@
 module AI
   extend ActiveSupport::Concern
-  include Display
   include QuestionUtils
 
   #Call this method when a new game begins to make sure old data is cleared
@@ -34,9 +33,15 @@ module AI
   end
 
   def update
+    to_delete = Array.new
+
     session[:possibilities].each do |animal_name|
       animal = get_animal_by_name(animal_name)
-      session[:possibilities].delete(animal_name) unless animal.compare(session[:template])
+      to_delete << animal_name unless animal.compare(session[:template])
+    end
+
+    to_delete.each do |animal|
+      session[:possibilities].delete(animal)
     end
   end
 

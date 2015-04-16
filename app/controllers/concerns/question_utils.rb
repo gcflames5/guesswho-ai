@@ -10,7 +10,7 @@ module QuestionUtils
     end
 
     def get_text
-      (list[@name.to_sym][:text]
+      (Display.list[@name.to_sym][:text]
       .gsub('%i', 'Is this animal')
       .gsub('%h', 'Does this animal have')
       .gsub('%l', 'Does this animal live in')
@@ -31,11 +31,12 @@ module QuestionUtils
   #### QUESTION CHOOSING UTILS ####
   def choose_question
     p_list = Array.new
-    session[:template].attrs_template.each do |name|
+    Animal.attrs_template.each do |name|
       question = Question.new(name)
       value = session[:template].send(name)
       next if name == "_id" || !value.nil? || inconsequential?(question)
-      propensity = [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].max
+      #propensity = [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].max
+      propensity = Assumption.number_of_unmade_assumptions(question, true, session[:template]) + Assumption.number_of_unmade_assumptions(question, false, session[:template]) + [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].min
       p_list << [propensity, question, !session[:template_assume].send(question.name).nil?]
     end
     @p_list = p_list
@@ -52,44 +53,20 @@ module QuestionUtils
     return max[1]
   end
 
-  #Runs all assertions and assumptions
   def screen(question, answer)
-    parent_hash = list[question.name.to_sym]
-    [:assume, :assert].each do |type|
-      check_array(parent_hash, answer, type)
-    end
-  end
+    Assumption.get_relations(question, answer).each do |hash|
+      key = hash.keys.first
+      value = hash[key]
 
-  #type=:assume/:assert
-  def check_array(parent_hash, answer, type)
-    if hash = parent_hash[type]
-      return if hash.nil?
-      if hash.kind_of?(Array)
-        hash.each do |sub_hash|
-          analyze(answer, sub_hash, type)
-        end
+      next unless session[:template].send(key.to_sym).nil?
+
+      if hash[:percent] >= 1.0
+        #assert
+        session[:template].send("#{key}=", value)
       else
-        analyze(answer, hash, type)
+        #assume
+        session[:template_assume].send("#{key}=", value) if session[:template_assume].send(key.to_sym).nil?
       end
-    end
-  end
-
-  #type=:assume/:assert
-  def analyze(answer, hash, type)
-    if target = hash[:diff]
-      ass(type, target, !answer) if hash[:if].nil? || hash[:if] == answer
-    end
-    if target = hash[:same]
-      ass(type, target, answer) if hash[:if].nil? || hash[:if] == answer
-    end
-  end
-
-  def ass(type, target, answer)
-    case type
-    when :assume
-      session[:template_assume].send("#{target}=", answer)
-    when :assert
-      session[:template].send("#{target}=", answer)
     end
   end
 
@@ -104,9 +81,5 @@ module QuestionUtils
     return false
   end
   ##################################
-
-  def get_animal_by_name(name)
-    @possibilities.detect{|animal| animal.name == name}
-  end
 
 end
