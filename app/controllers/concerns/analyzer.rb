@@ -49,10 +49,10 @@ module Analyzer
     hash = Hash.new
     hash[:best] = Analyzer.find_range(analyzed_hash, 90, 100)
     hash[:good] = Analyzer.find_range(analyzed_hash, 70, 89)
-    hash[:bad] = Analyzer.find_range(analyzed_hash, 0, 69)
+    hash[:bad] = Analyzer.find_range(analyzed_hash, 1, 69)
 
     assumption = Assumption.new
-    assumption.relations = hash
+    assumption.rel_hash = hash
     assumption.save
   end
 

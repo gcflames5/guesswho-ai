@@ -35,7 +35,8 @@ module QuestionUtils
       question = Question.new(name)
       value = session[:template].send(name)
       next if name == "_id" || !value.nil? || inconsequential?(question)
-      propensity = [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].max
+      #propensity = [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].max
+      propensity = Assumption.number_of_unmade_assumptions(question, true, session[:template]) + Assumption.number_of_unmade_assumptions(question, false, session[:template]) + [clone_and_test(session[:template], name, false), clone_and_test(session[:template], name, true)].min
       p_list << [propensity, question, !session[:template_assume].send(question.name).nil?]
     end
     @p_list = p_list
