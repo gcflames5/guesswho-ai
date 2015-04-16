@@ -1,6 +1,5 @@
 module AI
   extend ActiveSupport::Concern
-  include Display
   include QuestionUtils
 
   #Call this method when a new game begins to make sure old data is cleared

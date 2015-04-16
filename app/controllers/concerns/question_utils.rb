@@ -10,7 +10,7 @@ module QuestionUtils
     end
 
     def get_text
-      (list[@name.to_sym][:text]
+      (Display.list[@name.to_sym][:text]
       .gsub('%i', 'Is this animal')
       .gsub('%h', 'Does this animal have')
       .gsub('%l', 'Does this animal live in')
