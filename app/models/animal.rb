@@ -24,7 +24,7 @@ class Animal
 
   #Returns true if template fits animal, false if it does not
   def compare(template)
-    self.attrs_template.each do |name|
+    Animal.attrs_template.each do |name|
       value = self.send(name)
       next if template.send(name).nil?
       return false unless template.send(name) == value

@@ -17,20 +17,20 @@ module Display
         #Appearance
           is_tall: { text: "%i tall" },
           is_fast: { text: "%i fast" },
-          has_sharp_teeth: {text: "%h sharp teeth",  assume: {same: :eats_meat} },
+          has_sharp_teeth: {text: "%h sharp teeth" },
           has_forward_facing_eyes: { text: "%h forward facing eyes"},
-          has_spots: { text: "%h spots", assume: {diff: :has_stripes, if: true}},
-          has_stripes: { text: "%h stripes", assume: {diff: :has_spots, if: true}},
+          has_spots: { text: "%h spots" },
+          has_stripes: { text: "%h stripes" },
         #Body Parts
           has_shell: { text: "%h a shell"},
           has_tail: { text: "%h a tail"},
         #Behavior
-          eats_meat: { text: "%d eat meat", assume: {same: :has_sharp_teeth} },
-          lives_in_sea: { text: "%l in the sea", assert: {same: :can_swim, if: true}},
+          eats_meat: { text: "%d eat meat" },
+          lives_in_sea: { text: "%l in the sea" },
           lives_on_land: { text: "%l on land"},
         #Ability
-          can_fly: { text: "%c fly", assume: {diff: :has_shell, if: true} },
-          can_swim: { text: "%c swim", assert: {same: :lives_in_sea, if: false} }
+          can_fly: { text: "%c fly" },
+          can_swim: { text: "%c swim" },
     }
   end
 end

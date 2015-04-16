@@ -43,6 +43,19 @@ module Analyzer
     matches
   end
 
+  def self.inject_relations
+    analyzed_hash = Analyzer.analyze_database
+
+    hash = Hash.new
+    hash[:best] = Analyzer.find_range(analyzed_hash, 90, 100)
+    hash[:good] = Analyzer.find_range(analyzed_hash, 70, 89)
+    hash[:bad] = Analyzer.find_range(analyzed_hash, 0, 69)
+
+    assumption = Assumption.new
+    assumption.relations = hash
+    assumption.save
+  end
+
   private
 
   def self.boolean_to_sym(boolean)
