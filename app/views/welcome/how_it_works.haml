@@ -1,0 +1,14 @@
+.jumbotron
+  .container
+    %h1 About This Project
+    %h2 Objective
+    %p
+      The main objective of this project is a bit different from a standard "20 questions" application. The goal of this project was to create an AI that could use relations that it uncovered from the database to find what the user is thinking of using the least amount of questions possible. For the current data pool, the average number of questions that are needed to get the answer is about 3.
+    %h2 Relations
+    %p
+      Rather than relying on human input, the AI can find many hidden relations between the various attributes of animals based on the data it has available. If one were to write these relations in manually, they might think to tell it that "all animals that live in the sea can swim" and other common associations. However, would you have thought to tell it that "most animals that live in the river aren't usually common household pets?" Probably not, but of course if asked, you could easily affirm that assumption. Click the
+      =link_to "Relations Page", relations_path
+      to see all of the relations that the AI has found.
+    %h2 Choosing Questions
+    %p
+      When choosing the best question to ask the user, the program has a lot of factors to consider. The first thing it does is construct a decision tree that represents all of the current and future moves the AI could make. However, that is a massive number of branches, and would take too long to calculate through. To start, a massive number of branches are removed by comparing the relations to the possibilities, and ruling out values already assumed to be true or false. Each question is then assigned a value that incorporates the number of assumptions that will be made, the number of possibilities it will eliminate, and the risk (the differences in these numbers if the user answers "yes" or "no"). Based on that generated number, the AI assumes a maximizer algorithm to find questions that will arrive at the end answer the fastest.

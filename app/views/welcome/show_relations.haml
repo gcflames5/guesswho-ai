@@ -1,0 +1,37 @@
+.jumbotron
+  .container
+    %h2
+      The AI found
+      %b
+        = @assumption.rel_hash[:best].count
+        usable
+      relations
+    %p
+      "Usable" means that these relations occur at a frequency that can be used to make reliable assumptions.
+    %h3
+      Reading the Relations
+    %pre
+      = JSON.pretty_generate({ main_attribute:"false", sub_attribute:"true", percent:0.95})
+    %p
+      This is read as "When
+      %b
+        [main_attribute]
+      is
+      %b
+        [false]
+      , then
+      %b
+        [0.95]%
+      of the time,
+      %b
+        [sub_attribute]
+      will be
+      %b
+        [true]
+      "
+    %br
+    %br
+    %h2 The Relations
+
+    %pre
+      = JSON.pretty_generate(@assumption.rel_hash[:best])
