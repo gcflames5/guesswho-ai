@@ -29,4 +29,5 @@
     %h1
       Possibilities
     -session[:possibilities].each do |animal|
-      =render 'partials/possibility', name: animal
+      .btn.btn-default{style: "margin: 7px"}
+        =animal

@@ -12,7 +12,9 @@ module AI
   end
 
   def refresh
-    @possibilities = session[:possibilities].map{ |name| Animal.where(name: name).first }
+    @possibilities = Animal.any_in(name: session[:possibilities]).to_a
+
+    #@possibilities = session[:possibilities].map{ |name| Animal.where(name: name).first }
     session[:template] = Animal.new(session[:template])
     session[:template_assume] = Animal.new(session[:template_assume])
 

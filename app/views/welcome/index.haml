@@ -27,4 +27,5 @@
   %h2
     Animal Choices
   - @animals.each do |animal|
-    =render 'partials/possibility', name: animal
+    .btn.btn-default{style: "margin: 7px"}
+      =animal

@@ -8,8 +8,9 @@ class Assumption
 
     #Returns all relations that involve the specified key/value
     def get_relations(key, value)
+      @@assumption ||= Assumption.first
       matches = Array.new
-      Assumption.first.rel_hash[:best].each do |hash|
+      @@assumption.rel_hash[:best].each do |hash|
         next unless hash.keys[0] == key && !hash[hash.keys[0]].nil? && hash[hash.keys[0]] == boolean_to_sym(value)
         matches << { hash.keys[1] => hash[hash.keys[1]], percent: hash[percent] }
       end

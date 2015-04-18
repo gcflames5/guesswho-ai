@@ -12,6 +12,8 @@ require 'rails/mongoid'
 
 module GuesswhoAi
   class Application < Rails::Application
+    Mongoid.logger.level = Logger::DEBUG
+    Moped.logger.level = Logger::DEBUG
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
