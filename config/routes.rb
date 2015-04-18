@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   root to: 'welcome#index'
 
+  get 'relations' => 'welcome#show_relations', as: :relations
+  get 'howitworks' => 'welcome#how_it_works', as: :how_it_works
+
   get 'play' => 'games#play', as: :play
   get 'answer' => 'games#answer', as: :answer
   get 'start' => 'games#start', as: :start

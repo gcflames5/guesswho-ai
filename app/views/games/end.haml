@@ -7,8 +7,10 @@
       %h3
         Hmm. I'm torn between a few options. Were you thinking of any of these?
     %h2
-      -@guesses.each do |animal|
-        =render 'partials/possibility', name: animal.name
+      %center
+        -@guesses.each do |animal|
+          %h1
+            =animal.name
     %br
     .row
       .col-xs-6

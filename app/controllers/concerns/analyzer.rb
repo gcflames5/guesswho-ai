@@ -18,6 +18,7 @@ module Analyzer
           total = results[key][:true] + results[key][:false]
           value.each do |key2, value2|
             results[key][key2] /= total.to_f
+            results[key][key2] = results[key][key2].round(2)
           end
         end
         hash[main_attr][sub_attr] = results
